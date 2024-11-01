@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
@@ -24,6 +25,7 @@ import { Book } from '@app/core/models/book.model';
 export class BookListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private bookService = inject(BookService);
+  private destroyRef = inject(DestroyRef);
 
   public filteredBooks$: Observable<Book[]> = this.bookService.books$;
   public searchControl: FormControl<string | null> = new FormControl('');
@@ -60,7 +62,9 @@ export class BookListComponent implements OnInit {
   }
 
   private subscribeOnSearchChanges(): void {
-    this.searchControl.valueChanges.subscribe((value: string | null) => {
+    this.searchControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value: string | null) => {
       this.filteredBooks$ = this.bookService.searchBooks(value || '');
     })
   }
