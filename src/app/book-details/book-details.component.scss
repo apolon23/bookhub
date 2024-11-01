@@ -1,0 +1,38 @@
+.book-details-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 15px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+h2 {
+  color: #007bff;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-dialog-actions button {
+  flex: 1;
+  margin: 0 4px;
+}
+
+.green-save-button {
+  background-color: #4caf50;
+  color: #fff;
+
+  &:hover {
+    background-color: #45a049;
+  }
+
+  &:disabled {
+    background-color: #c8e6c9;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

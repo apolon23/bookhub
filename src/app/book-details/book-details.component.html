@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Book Details</h2>
+<mat-dialog-content>
+  <form [formGroup]="bookForm" class="book-details-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Author</mat-label>
+      <input matInput formControlName="author">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Year</mat-label>
+      <input matInput type="number" formControlName="year">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cover Image URL</mat-label>
+      <input matInput formControlName="coverImage">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button color="warn" (click)="deleteBook(data.id)" type="button">Delete</button>
+  <button mat-flat-button (click)="onCancel()" type="button">Cancel</button>
+  <button class="green-save-button"
+          mat-flat-button [disabled]="bookForm.invalid" (click)="onSave()" type="button">Save</button>
+</mat-dialog-actions>

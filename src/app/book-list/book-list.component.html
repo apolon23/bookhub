@@ -1,0 +1,59 @@
+<section class="book-list-container">
+  <h2>BookHub</h2>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search by Title or Author</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Enter book title or author">
+  </mat-form-field>
+
+  <button class="add-book-button" mat-flat-button (click)="addBook()" type="button">
+    Add Book
+  </button>
+
+  <mat-table [dataSource]="(filteredBooks$ | async) ?? []" class="mat-elevation-z8 book-table">
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+      <mat-cell *matCellDef="let book">{{book.title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="author">
+      <mat-header-cell *matHeaderCellDef> Author </mat-header-cell>
+      <mat-cell *matCellDef="let book"> {{book.author}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+      <mat-header-cell *matHeaderCellDef> Year </mat-header-cell>
+      <mat-cell *matCellDef="let book"> {{book.year}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="coverImage">
+      <mat-header-cell *matHeaderCellDef> Cover Image </mat-header-cell>
+      <mat-cell *matCellDef="let book">
+        <!-- Display cover image if available -->
+        <img *ngIf="book.coverImage" [src]="book.coverImage" alt="{{book.title}} cover image" class="cover-image" />
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let book">
+        <button class="delete-book-button"
+                mat-flat-button
+                color="warn"
+                (click)="deleteBook(book.id); $event.stopPropagation()"
+                type="button">
+          Delete
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['title', 'author', 'year','coverImage', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['title', 'author', 'year','coverImage', 'actions'];"
+             (click)="openDetails(row)">
+    </mat-row>
+  </mat-table>
+
+  <ng-container *ngIf="(filteredBooks$ | async)?.length === 0">
+    <p class="book-list-container-empty">No books available. Please add a new book.</p>
+  </ng-container>
+</section>
